@@ -21,3 +21,6 @@ the config file is expected to be located in `${XDG_CONFIG_HOME:-~/.config}/copy
 the script attempts to launch any of the avaible terminals with either the name or class
 `CopyPaster` so that you can match it on your window manager config and give rules like ontop,
 floating, centered and more.
+
+
+this script is based on [term-dmenu](https://github.com/Seirdy/term-dmenu)

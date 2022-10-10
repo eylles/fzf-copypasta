@@ -1,10 +1,10 @@
 #!/bin/sh
 
-tmpfile="${TMPDIR:-/tmp}/copypastas_$$"
+tmpfile="${TMPDIR:-/tmp}/copypastas-sh_$$"
 trap 'rm -f -- $tmpfile' EXIT
 
 #config file
-CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas/configrc"
+CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
 [ -f "$CONFIG" ] && . "$CONFIG"
 
 file_print() {
@@ -39,10 +39,21 @@ run_float_term() {
 }
 
 if [ -z "$PASTAS_DIR" ]; then
-    PASTAS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/copypastas"
+    PASTAS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/copypastas-sh"
 fi
 
-cd "$PASTAS_DIR"
+if [ -d "$PASTAS_DIR" ]; then
+    if [ $(find "$PASTAS_DIR" | wc -l) -eq 1 ]; then
+        notify-send "${0##*/}: error" "${PASTAS_DIR} empty, it will be populated"
+        cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
+    fi
+    cd "$PASTAS_DIR"
+else
+    notify-send "${0##*/}: error" "${PASTAS_DIR} doesn't exit, it will be created and populated"
+    mkdir -p "$PASTAS_DIR"
+    cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
+    cd "$PASTAS_DIR"
+fi
 
 if [ -z "$FZF_PASTA_OPTS" ]; then
     FZF_PASTA_OPTS="--layout=reverse --height 100% --header 'Copy Pastas' \

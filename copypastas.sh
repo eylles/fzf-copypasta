@@ -7,21 +7,6 @@ export pidfile="${tmpfile}.termpid"
 trap 'rm -f -- $tmpfile' EXIT
 trap 'rm -f -- $pidfile' EXIT
 
-#config file
-CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
-if [ -f "$CONFIG" ]; then
-    # load config
-    . "$CONFIG"
-else
-    notify-send "${0##*/}: Error!" "${CONFIG} doesn't exist, example config will be copied"
-    if [ ! -d "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh" ]; then
-        mkdir -p "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh"
-    fi
-    cp examples-placeholder/configrc "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/"
-    # load config
-    . "$CONFIG"
-fi
-
 file_print() {
     while read -r line; do
       if ! printf '%s\n' "$line" | grep "TITLE=" >/dev/null; then
@@ -52,6 +37,21 @@ run_float_term() {
     TERM_PID=$!
     printf '%s\n' "$TERM_PID" > "$pidfile"
 }
+
+#config file
+CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
+if [ -f "$CONFIG" ]; then
+    # load config
+    . "$CONFIG"
+else
+    notify-send "${0##*/}: Error!" "${CONFIG} doesn't exist, example config will be copied"
+    if [ ! -d "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh" ]; then
+        mkdir -p "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh"
+    fi
+    cp examples-placeholder/configrc "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/"
+    # load config
+    . "$CONFIG"
+fi
 
 if [ -z "$PASTAS_DIR" ]; then
     PASTAS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/copypastas-sh"

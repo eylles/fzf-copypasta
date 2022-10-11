@@ -26,3 +26,6 @@ FZF_PASTA_COLORS="--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9,fg+:#f8f8f2,bg+:#4447
 #                    terminal title flag ---|     |       |
 #                        terminal title to set ---|       |
 #                              terminal's execute flag ---|
+
+# the directory to search for copypastas
+#PASTAS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/copypastas-sh"

@@ -6,6 +6,7 @@ EGPREFIX = $(PREFIX)/share/doc/$(NAME)/examples
 
 $(NAME):
 	sed "s|examples-placeholder|$(EGPREFIX)|; s|copypastas-sh|$(NAME)|" copypastas.sh > $(NAME)
+	sed "s|copypastas-sh|$(NAME)|" configrc.template > configrc
 
 install: $(NAME)
 	chmod 755 $(NAME)
@@ -17,6 +18,7 @@ install: $(NAME)
 	cp -v gnu+linux $(DESTDIR)$(EGPREFIX)/
 	cp -v configrc $(DESTDIR)$(EGPREFIX)/
 	rm $(NAME)
+	rm configrc
 
 uninstall:
 	rm -vf $(DESTDIR)$(PREFIX)/bin/$(NAME)

@@ -1,7 +1,11 @@
 #!/bin/sh
 
 tmpfile="${TMPDIR:-/tmp}/copypastas-sh_$$"
+export pidfile="${tmpfile}.termpid"
+#initialize pidfile
+:> "$pidfile"
 trap 'rm -f -- $tmpfile' EXIT
+trap 'rm -f -- $pidfile' EXIT
 
 #config file
 CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
@@ -33,9 +37,9 @@ run_float_term() {
         'st -c CopyPaster -e' 'uxterm -name CopyPaster -T CopyPaster -e')
     fi
 
-    $FLOATING_TERMINAL "$@"
+    $FLOATING_TERMINAL "$@" &
     TERM_PID=$!
-    printf '%s\n' "$TERM_PID"
+    printf '%s\n' "$TERM_PID" > "$pidfile"
 }
 
 if [ -z "$PASTAS_DIR" ]; then
@@ -52,7 +56,7 @@ else
     notify-send "${0##*/}: error" "${PASTAS_DIR} doesn't exit, it will be created and populated"
     mkdir -p "$PASTAS_DIR"
     cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
-    cd "$PASTAS_DIR"
+    cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }
 fi
 
 if [ -z "$FZF_PASTA_OPTS" ]; then
@@ -65,19 +69,22 @@ fi
 
 export FZF_DEFAULT_OPTS="${FZF_PASTA_OPTS} ${FZF_PASTA_COLORS}"
 
-RUNNING_TERM=$(run_float_term "fzf --preview 'pasta_preview {}' > $tmpfile" &)
-# run_float_term "fzf > $tmpfile"
+eval $(run_float_term "fzf --preview 'pasta_preview {}' > $tmpfile") &
+until [ -n "$(cat "$pidfile")" ]; do
+    sleep .1
+done
 
+RUNNING_TERM=$(cat "$pidfile")
 while kill -0 "$RUNNING_TERM" 2>/dev/null; do
-    sleep 0.2
+    sleep 0.4
 done
 
 SELECTED_PASTA=$(cat "$tmpfile")
 
 if [ -z "$SELECTED_PASTA" ]; then
-    notify-send "no file selected"
+    notify-send "${0##*/}" "no file selected"
 else
     SELECTED_FILE=$(printf '%s/%s\n' "${PASTAS_DIR}" "${SELECTED_PASTA}")
     file_print "$SELECTED_FILE" | xclip -selection clipboard
-    notify-send "${SELECTED_PASTA} copied to clipboard."
+    notify-send "${0##*/}" "${SELECTED_PASTA} copied to clipboard."
 fi

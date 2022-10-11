@@ -51,7 +51,7 @@ if [ -d "$PASTAS_DIR" ]; then
         notify-send "${0##*/}: error" "${PASTAS_DIR} empty, it will be populated"
         cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
     fi
-    cd "$PASTAS_DIR"
+    cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }
 else
     notify-send "${0##*/}: error" "${PASTAS_DIR} doesn't exit, it will be created and populated"
     mkdir -p "$PASTAS_DIR"

@@ -9,7 +9,18 @@ trap 'rm -f -- $pidfile' EXIT
 
 #config file
 CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
-[ -f "$CONFIG" ] && . "$CONFIG"
+if [ -f "$CONFIG" ]; then
+    # load config
+    . "$CONFIG"
+else
+    notify-send "${0##*/}: error" "${CONFIG} doesn't exit, examples config will be copied"
+    if [ ! -d "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh" ]; then
+        mkdir -p "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh"
+    fi
+    cp examples-placeholder/configrc "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/"
+    # load config
+    . "$CONFIG"
+fi
 
 file_print() {
     while read -r line; do

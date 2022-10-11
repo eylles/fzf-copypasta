@@ -13,7 +13,7 @@ if [ -f "$CONFIG" ]; then
     # load config
     . "$CONFIG"
 else
-    notify-send "${0##*/}: error" "${CONFIG} doesn't exit, examples config will be copied"
+    notify-send "${0##*/}: Error!" "${CONFIG} doesn't exist, example config will be copied"
     if [ ! -d "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh" ]; then
         mkdir -p "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh"
     fi
@@ -64,7 +64,7 @@ if [ -d "$PASTAS_DIR" ]; then
     fi
     cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }
 else
-    notify-send "${0##*/}: error" "${PASTAS_DIR} doesn't exit, it will be created and populated"
+    notify-send "${0##*/}: Error!" "${PASTAS_DIR} doesn't exist, it will be created and populated"
     mkdir -p "$PASTAS_DIR"
     cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
     cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }

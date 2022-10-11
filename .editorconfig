@@ -10,10 +10,10 @@ root = true
 charset = utf-8
 
 # Indentation
-# indent with tabs
-indent_style = tab
-# same tab size as kernel style
-indent_size = 8
+# indent with spaces
+indent_style = spaces
+# i preffer this size for shell scripts
+indent_size = 2
 
 # no trailing spaces
 trim_trailing_whitespace = true

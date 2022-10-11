@@ -1,1 +1,28 @@
-FZF_PASTA_COLORS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9,fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9,info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6,marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
+# vim: ft=sh
+
+# these the additional config options that will be passed to the instance of fzf running as the
+# fuzzy menu, the variable "FZF_DEFAULT_OPTS" is exported inside the script with the values of
+# "FZF_PASTA_OPTS" and "FZF_PASTA_COLORS", the variables aren't checked, so if you set them to
+# something wrong and fzf fails to run it is your fault.
+
+# default options, same as set inside the script when not set here
+#FZF_PASTA_OPTS="--layout=reverse --height 100% --header 'Copy Pastas' \
+#     --cycle --preview-window sharp --preview-window 70% \
+#     --prompt='filter: ' \
+#     --bind alt-k:preview-up \
+#     --bind alt-j:preview-down"
+
+# colorscheme for fzf, by default we ship dracula
+FZF_PASTA_COLORS="--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9,fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
+--color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6,marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+
+# the terminal to use as a floating terminal, you must set this var along all the necessary
+# arguments to set the correct name and/or class for your terminal, remember to set the name and or
+# classname to CopyPaster for consistency
+# as an example we are using xterm
+#FLOATING_TERMINAL='xterm -name CopyPaster -T CopyPaster -e'
+#       WM_CLASS name flag  ^       ^       ^     ^       ^
+#           WM_CLASS name to set ---|       |     |       |
+#                    terminal title flag ---|     |       |
+#                        terminal title to set ---|       |
+#                              terminal's execute flag ---|

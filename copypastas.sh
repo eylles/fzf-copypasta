@@ -13,8 +13,8 @@ tmpfile="${TMPDIR:-/tmp}/copypastas-sh_$$"
 export pidfile="${tmpfile}.termpid"
 #initialize pidfile
 :> "$pidfile"
-trap 'rm -f -- $tmpfile' EXIT
-trap 'rm -f -- $pidfile' EXIT
+
+trap 'rm -f -- $pidfile $tmpfile' EXIT
 
 file_print() {
     while read -r line; do

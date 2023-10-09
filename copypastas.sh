@@ -1,6 +1,15 @@
 #!/bin/sh
 
+# type: string file
+# definition:
+#   "$TMPDIR/copypastas_$$"
+#     ^- temp dir       ^- shell pid
 tmpfile="${TMPDIR:-/tmp}/copypastas-sh_$$"
+# type: pid file
+# definition:
+#   "$tmpfile.termpid"
+#     ^         ^- termpid extension
+#     |- temp file name
 export pidfile="${tmpfile}.termpid"
 #initialize pidfile
 :> "$pidfile"

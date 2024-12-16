@@ -4,7 +4,10 @@ PREFIX = ~/.local
 EGPREFIX = $(PREFIX)/share/doc/$(NAME)/examples
 .PHONY: install uninstall
 
-$(NAME):
+pasta_preview:
+	cp pasta_preview.sh pasta_preview
+
+$(NAME): pasta_preview
 	sed "s|examples-placeholder|$(EGPREFIX)|; s|copypastas-sh|$(NAME)|" copypastas.sh > $(NAME)
 	sed "s|copypastas-sh|$(NAME)|" configrc.template > configrc
 

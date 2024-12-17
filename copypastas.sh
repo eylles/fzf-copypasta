@@ -89,7 +89,7 @@ fi
 
 export FZF_DEFAULT_OPTS="${FZF_PASTA_OPTS} ${FZF_PASTA_COLORS}"
 
-eval $(run_float_term "fzf --preview 'pasta_preview {}' > $tmpfile") &
+eval $(run_float_term "fzf --preview '@lib@/pasta_preview {}' > $tmpfile") &
 until [ -n "$(cat "$pidfile")" ]; do
     sleep .1
 done

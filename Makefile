@@ -1,6 +1,8 @@
 .POSIX:
 NAME = copypastas
-PREFIX = ~/.local
+PREFIX = ${HOME}/.local
+BIN_LOC = $(DESTDIR)${PREFIX}/bin
+LIB_LOC = $(DESTDIR)${PREFIX}/lib/$(NAME)
 EGPREFIX = $(PREFIX)/share/doc/$(NAME)/examples
 .PHONY: install uninstall
 
@@ -8,24 +10,28 @@ pasta_preview:
 	cp pasta_preview.sh pasta_preview
 
 $(NAME): pasta_preview
-	sed "s|examples-placeholder|$(EGPREFIX)|; s|copypastas-sh|$(NAME)|" copypastas.sh > $(NAME)
+	sed "s|examples-placeholder|$(EGPREFIX)|; s|copypastas-sh|$(NAME)|; s|@lib@|$(LIB_LOC)|" \
+		copypastas.sh > $(NAME)
 	sed "s|copypastas-sh|$(NAME)|" configrc.template > configrc
 
 install: $(NAME)
 	chmod 755 $(NAME)
 	chmod 755 pasta_preview
-	mkdir -p $(DESTDIR)${PREFIX}/bin
+	mkdir -p $(BIN_LOC)
+	mkdir -p $(LIB_LOC)
 	mkdir -p $(DESTDIR)$(EGPREFIX)
-	cp -v $(NAME) $(DESTDIR)${PREFIX}/bin
-	cp -v pasta_preview $(DESTDIR)${PREFIX}/bin
+	cp -v $(NAME) $(BIN_LOC)/
+	cp -v pasta_preview $(LIB_LOC)/
 	cp -v gnu+linux $(DESTDIR)$(EGPREFIX)/
 	cp -v configrc $(DESTDIR)$(EGPREFIX)/
 	rm $(NAME)
+	rm pasta_preview
 	rm configrc
 
 uninstall:
-	rm -vf $(DESTDIR)$(PREFIX)/bin/$(NAME)
-	rm -vf $(DESTDIR)$(PREFIX)/bin/pasta_preview
+	rm -vf $(BIN_LOC)/$(NAME)
+	rm -vf $(LIB_LOC)/pasta_preview
+	rm -rf $(DESTDIR)$(LIB_LOC)
 	rm -vf $(DESTDIR)$(EGPREFIX)/gnu+linux
 	rm -vf $(DESTDIR)$(EGPREFIX)/configrc
 	rm -rf $(DESTDIR)$(EGPREFIX)

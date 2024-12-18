@@ -3,7 +3,7 @@ NAME = copypastas
 PREFIX = ${HOME}/.local
 BIN_LOC = $(DESTDIR)${PREFIX}/bin
 LIB_LOC = $(DESTDIR)${PREFIX}/lib/$(NAME)
-EGPREFIX = $(PREFIX)/share/doc/$(NAME)/examples
+EGPREFIX = $(DESTDIR)$(PREFIX)/share/doc/$(NAME)/examples
 .PHONY: install uninstall
 
 pasta_preview:
@@ -22,8 +22,8 @@ install: $(NAME)
 	mkdir -p $(DESTDIR)$(EGPREFIX)
 	cp -v $(NAME) $(BIN_LOC)/
 	cp -v pasta_preview $(LIB_LOC)/
-	cp -v gnu+linux $(DESTDIR)$(EGPREFIX)/
-	cp -v configrc $(DESTDIR)$(EGPREFIX)/
+	cp -v gnu+linux $(EGPREFIX)/
+	cp -v configrc $(EGPREFIX)/
 	rm $(NAME)
 	rm pasta_preview
 	rm configrc
@@ -31,8 +31,8 @@ install: $(NAME)
 uninstall:
 	rm -vf $(BIN_LOC)/$(NAME)
 	rm -vf $(LIB_LOC)/pasta_preview
-	rm -rf $(DESTDIR)$(LIB_LOC)
-	rm -vf $(DESTDIR)$(EGPREFIX)/gnu+linux
-	rm -vf $(DESTDIR)$(EGPREFIX)/configrc
-	rm -rf $(DESTDIR)$(EGPREFIX)
+	rm -rf $(LIB_LOC)
+	rm -vf $(EGPREFIX)/gnu+linux
+	rm -vf $(EGPREFIX)/configrc
+	rm -rf $(EGPREFIX)
 

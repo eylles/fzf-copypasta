@@ -3,8 +3,9 @@ NAME = copypastas
 PREFIX = ${HOME}/.local
 BIN_LOC = $(DESTDIR)${PREFIX}/bin
 LIB_LOC = $(DESTDIR)${PREFIX}/lib/$(NAME)
+DESK_LOC = $(DESTDIR)$(PREFIX)/share/applications
 EGPREFIX = $(DESTDIR)$(PREFIX)/share/doc/$(NAME)/examples
-.PHONY: install uninstall
+.PHONY: install uninstall install-all
 
 pasta_preview:
 	cp pasta_preview.sh pasta_preview
@@ -28,6 +29,13 @@ install: $(NAME)
 	rm pasta_preview
 	rm configrc
 
+install-desktop:
+	@echo "INSTALL fzf-copypasta.desktop"
+	mkdir -p $(DESK_LOC)
+	cp fzf-copypasta.desktop $(DESK_LOC)/
+
+install-all: install install-desktop
+
 uninstall:
 	rm -vf $(BIN_LOC)/$(NAME)
 	rm -vf $(LIB_LOC)/pasta_preview
@@ -35,4 +43,5 @@ uninstall:
 	rm -vf $(EGPREFIX)/gnu+linux
 	rm -vf $(EGPREFIX)/configrc
 	rm -rf $(EGPREFIX)
+	rm -vf $(DESK_LOC)/fzf-copypasta.desktop
 

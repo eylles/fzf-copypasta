@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Copy Pastas
+GenericName=Copy Pasta Picker
+Comment=Copy pastas picker built with fzf
+Icon=accessories-notes
+Exec=copypastas
+TryExec=copypastas
+Terminal=false
+Categories=Utility;ConsoleOnly;

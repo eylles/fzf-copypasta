@@ -20,7 +20,7 @@ install: $(NAME)
 	chmod 755 pasta_preview
 	mkdir -p $(BIN_LOC)
 	mkdir -p $(LIB_LOC)
-	mkdir -p $(DESTDIR)$(EGPREFIX)
+	mkdir -p $(EGPREFIX)
 	cp -v $(NAME) $(BIN_LOC)/
 	cp -v pasta_preview $(LIB_LOC)/
 	cp -v gnu+linux $(EGPREFIX)/

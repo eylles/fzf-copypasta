@@ -48,16 +48,16 @@ run_float_term() {
 }
 
 #config file
-CONFIG="${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/configrc"
+CONFIG="${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh/configrc"
 if [ -f "$CONFIG" ]; then
     # load config
     . "$CONFIG"
 else
     notify-send "${0##*/}: Error!" "${CONFIG} doesn't exist, example config will be copied"
-    if [ ! -d "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh" ]; then
-        mkdir -p "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh"
+    if [ ! -d "${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh" ]; then
+        mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh"
     fi
-    cp examples-placeholder/configrc "${XDG_CONFIG_HOME:-~/.config}/copypastas-sh/"
+    cp examples-placeholder/configrc "${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh/"
     # load config
     . "$CONFIG"
 fi

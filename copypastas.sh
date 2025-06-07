@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# type: string
+#   Contains this program's name
+myname="${0##*/}"
+
 # type: string file
 # definition:
 #   "$TMPDIR/copypastas_$$"
@@ -53,7 +57,7 @@ if [ -f "$CONFIG" ]; then
     # load config
     . "$CONFIG"
 else
-    notify-send "${0##*/}: Error!" "${CONFIG} doesn't exist, example config will be copied"
+    notify-send "$myname: Error!" "${CONFIG} doesn't exist, example config will be copied"
     if [ ! -d "${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh" ]; then
         mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/copypastas-sh"
     fi
@@ -68,15 +72,15 @@ fi
 
 if [ -d "$PASTAS_DIR" ]; then
     if [ $(find "$PASTAS_DIR" | wc -l) -eq 1 ]; then
-        notify-send "${0##*/}: error" "${PASTAS_DIR} empty, it will be populated"
+        notify-send "$myname: error" "${PASTAS_DIR} empty, it will be populated"
         cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
     fi
-    cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }
+    cd "$PASTAS_DIR" || { printf '%s\n' "$myname: could not cd into $PASTAS_DIR" >&2; exit 1; }
 else
-    notify-send "${0##*/}: Error!" "${PASTAS_DIR} doesn't exist, it will be created and populated"
+    notify-send "$myname: Error!" "${PASTAS_DIR} doesn't exist, it will be created and populated"
     mkdir -p "$PASTAS_DIR"
     cp examples-placeholder/gnu+linux "${PASTAS_DIR}/"
-    cd "$PASTAS_DIR" || { printf '%s\n' "${0##*/}: could not cd into $PASTAS_DIR" >&2; exit 1; }
+    cd "$PASTAS_DIR" || { printf '%s\n' "$myname: could not cd into $PASTAS_DIR" >&2; exit 1; }
 fi
 
 if [ -z "$FZF_PASTA_OPTS" ]; then
@@ -102,7 +106,7 @@ done
 SELECTED_PASTA=$(cat "$tmpfile")
 
 if [ -z "$SELECTED_PASTA" ]; then
-    notify-send "${0##*/}" "no file selected"
+    notify-send "$myname" "no file selected"
 else
     SELECTED_FILE=$(printf '%s/%s\n' "${PASTAS_DIR}" "${SELECTED_PASTA}")
     case "$XDG_SESSION_TYPE" in
@@ -113,5 +117,5 @@ else
             file_print "$SELECTED_FILE" | wl-copy
             ;;
     esac
-    notify-send "${0##*/}" "${SELECTED_PASTA} copied to clipboard."
+    notify-send "$myname" "${SELECTED_PASTA} copied to clipboard."
 fi

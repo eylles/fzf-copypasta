@@ -5,19 +5,21 @@ BIN_LOC = $(DESTDIR)${PREFIX}/bin
 LIB_LOC = $(DESTDIR)${PREFIX}/lib/$(NAME)
 DESK_LOC = $(DESTDIR)$(PREFIX)/share/applications
 EGPREFIX = $(DESTDIR)$(PREFIX)/share/doc/$(NAME)/examples
-.PHONY: install uninstall install-all
+.PHONY: install uninstall install-all clean all
+
+all: $(NAME)
 
 pasta_preview:
 	cp pasta_preview.sh pasta_preview
+	chmod 755 pasta_preview
 
 $(NAME): pasta_preview
 	sed "s|examples-placeholder|$(EGPREFIX)|; s|copypastas-sh|$(NAME)|; s|@lib@|$(LIB_LOC)|" \
 		copypastas.sh > $(NAME)
 	sed "s|copypastas-sh|$(NAME)|" configrc.template > configrc
+	chmod 755 $(NAME)
 
 install: $(NAME)
-	chmod 755 $(NAME)
-	chmod 755 pasta_preview
 	mkdir -p $(BIN_LOC)
 	mkdir -p $(LIB_LOC)
 	mkdir -p $(EGPREFIX)
@@ -25,9 +27,6 @@ install: $(NAME)
 	cp -v pasta_preview $(LIB_LOC)/
 	cp -v gnu+linux $(EGPREFIX)/
 	cp -v configrc $(EGPREFIX)/
-	rm $(NAME)
-	rm pasta_preview
-	rm configrc
 
 install-desktop:
 	@echo "INSTALL fzf-copypasta.desktop"
@@ -45,3 +44,5 @@ uninstall:
 	rm -rf $(EGPREFIX)
 	rm -vf $(DESK_LOC)/fzf-copypasta.desktop
 
+clean:
+	rm -vf $(NAME) pasta_preview configrc

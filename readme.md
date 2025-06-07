@@ -24,3 +24,15 @@ floating, centered and more.
 
 
 this script is based on [term-dmenu](https://github.com/Seirdy/term-dmenu)
+
+
+Requirements:
+
+|program|function|
+|----|----|
+|xclip|copy to clipboard (x11)|
+|wl-clipboard|copy to clipboard (wayland)|
+|posix shell interpreter|main program|
+|coreutils|main program functions (rm, cp, cat)|
+|fzf|selection menu|
+|terminal emulator|where the program will run|

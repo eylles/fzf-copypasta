@@ -105,6 +105,13 @@ if [ -z "$SELECTED_PASTA" ]; then
     notify-send "${0##*/}" "no file selected"
 else
     SELECTED_FILE=$(printf '%s/%s\n' "${PASTAS_DIR}" "${SELECTED_PASTA}")
-    file_print "$SELECTED_FILE" | xclip -selection clipboard
+    case "$XDG_SESSION_TYPE" in
+        x11)
+            file_print "$SELECTED_FILE" | xclip -selection clipboard
+            ;;
+        wayland)
+            file_print "$SELECTED_FILE" | wl-copy
+            ;;
+    esac
     notify-send "${0##*/}" "${SELECTED_PASTA} copied to clipboard."
 fi
